@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>위험회피회계 자동화 프로토타입 개발문서</title>
+  <link rel="stylesheet" href="report-style.css">
+</head>
+<body>
+<section class="sheet cover" data-page="01">
+  <div class="kicker">Development Document</div>
+  <h1>위험회피회계 자동화<br>프로토타입 개발문서</h1>
+  <p class="sub">헥사고날 구조와 DDD 관점을 바탕으로 금융 도메인 로직, API, UI, 테스트를 연결한 구현 문서입니다.</p>
+  <div class="cover-grid">
+    <div class="cover-card">
+      <div class="kicker">Stack</div>
+      <div class="chips">
+        <span class="chip">Java 25</span>
+        <span class="chip">Spring Boot 4</span>
+        <span class="chip">React 19</span>
+        <span class="chip">TypeScript</span>
+      </div>
+    </div>
+    <div class="cover-card">
+      <div class="kicker">Architecture</div>
+      <p style="color:rgba(255,255,255,.86); margin-top:3mm;">adapter · application · domain<br>BigDecimal · Append-only · Tests</p>
+    </div>
+  </div>
+  <div class="footer">Hedge Accounting Automation Prototype</div>
+</section>
+
+<section class="sheet compact" data-page="02">
+  <div class="section-head">
+    <div>
+      <div class="kicker">01 Architecture</div>
+      <h2>시스템 구조</h2>
+    </div>
+    <p class="section-note">프런트는 사용자 흐름, 백엔드는 회계 유스케이스와 도메인 계산을 담당합니다.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card blue">
+      <div class="card-title">Frontend</div>
+      <p>React/Vite 기반 UI가 계약 등록, 평가 실행, 관계 지정, 테스트 실행, 분개 조회를 단계별로 제공합니다.</p>
+      <div class="chips"><span class="chip">React</span><span class="chip">Zod</span><span class="chip">TanStack Query</span></div>
+    </div>
+    <div class="card green">
+      <div class="card-title">Backend</div>
+      <p>Spring Boot API가 공정가치 평가, 헤지 지정, 유효성 테스트, 자동 분개 생성을 담당합니다.</p>
+      <div class="chips"><span class="chip green">Spring Boot</span><span class="chip green">JPA</span><span class="chip green">PostgreSQL</span></div>
+    </div>
+  </div>
+  <div class="formula">frontend
+  -> adapter/web (Controller, DTO)
+  -> application (UseCase, Service, Transaction)
+  -> domain (Pricing, Policy, Journal Generator)
+  -> repository/JPA
+  -> PostgreSQL</div>
+  <table class="mini-table">
+    <thead>
+      <tr><th>계층</th><th>책임</th><th>대표 파일</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>adapter</td><td>HTTP 요청/응답, DTO 변환</td><td>HedgeDesignationController</td></tr>
+      <tr><td>application</td><td>유스케이스 오케스트레이션</td><td>EffectivenessTestService</td></tr>
+      <tr><td>domain</td><td>금융 계산과 회계 분개 규칙</td><td>DollarOffsetCalculator, JournalGenerator</td></tr>
+      <tr><td>repository</td><td>JPA 기반 영속성</td><td>HedgeRelationshipRepository</td></tr>
+    </tbody>
+  </table>
+  <div class="footer">Development Document · Architecture</div>
+</section>
+
+<section class="sheet compact" data-page="03">
+  <div class="section-head">
+    <div>
+      <div class="kicker">02 Domain Engine</div>
+      <h2>회계 엔진 구현</h2>
+    </div>
+    <p class="section-note">금융 계산과 회계 분개는 도메인 로직으로 격리해 테스트 가능하게 만들었습니다.</p>
+  </div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">FX Forward</div>
+      <p>IRP 기반 이론 선물환율, 할인계수, 공정가치 변동을 계산합니다.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">IRS FVH</div>
+      <p>IRS 평가손익과 고정금리채권 장부조정을 K-IFRS 6.5.8 흐름으로 처리합니다.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Dollar-offset</div>
+      <p>경제적 관계와 참고 범위를 분리해 PASS/WARNING/FAIL을 판정합니다.</p>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <tr><th style="width:28%;">엔진</th><th>구현 내용</th><th style="width:25%;">근거</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>FX Forward 평가</td><td>IRP, 현가계수, 공정가치 계산</td><td>K-IFRS 1113 Level 2</td></tr>
+      <tr><td>CFH Lower of Test</td><td>유효분 OCI, 비효과분 P/L 분리</td><td>K-IFRS 1109 6.5.11</td></tr>
+      <tr><td>IRS FVH 분개</td><td>수단 평가손익과 피헤지항목 장부조정</td><td>K-IFRS 1109 6.5.8</td></tr>
+      <tr><td>IRS FVH 상각</td><td>장부금액 조정 잔액의 후속 상각</td><td>K-IFRS 1109 6.5.9</td></tr>
+    </tbody>
+  </table>
+  <div class="quote">80~125%는 IFRS 9에서 합격선이 아니라 참고 범위로 처리했습니다. FAIL은 경제적 관계가 훼손되는 동방향 변동 등 더 본질적인 조건에 연결했습니다.</div>
+  <div class="footer">Development Document · Domain Engine</div>
+</section>
+
+<section class="sheet compact" data-page="04">
+  <div class="section-head">
+    <div>
+      <div class="kicker">03 API and UI</div>
+      <h2>API와 화면 흐름</h2>
+    </div>
+    <p class="section-note">심사자가 직접 따라갈 수 있도록 화면 순서를 업무 순서와 맞췄습니다.</p>
+  </div>
+  <div class="flow">
+    <div class="flow-step"><span class="badge">1</span><strong>평가</strong><span>/valuations<br>/api/irs/valuate</span></div>
+    <div class="flow-step"><span class="badge">2</span><strong>지정</strong><span>/hedge-relationships</span></div>
+    <div class="flow-step"><span class="badge">3</span><strong>검증</strong><span>/effectiveness-tests</span></div>
+    <div class="flow-step"><span class="badge">4</span><strong>분개</strong><span>/journal-entries</span></div>
+  </div>
+  <table class="mini-table">
+    <thead>
+      <tr><th>업무</th><th>대표 API</th><th>화면</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>FX Forward 평가</td><td>POST /api/v1/valuations/fx-forward</td><td>공정가치 평가</td></tr>
+      <tr><td>IRS 평가</td><td>POST /api/irs/valuate</td><td>공정가치 평가 - IRS 탭</td></tr>
+      <tr><td>헤지 지정</td><td>POST /api/v1/hedge-relationships</td><td>헤지 지정</td></tr>
+      <tr><td>유효성 테스트</td><td>POST /api/v1/effectiveness-tests</td><td>유효성 테스트</td></tr>
+      <tr><td>자동 분개</td><td>GET /api/v1/journal-entries</td><td>자동 분개</td></tr>
+      <tr><td>IRS 상각</td><td>POST /api/v1/journal-entries/irs-fvh-amortization</td><td>자동 분개 - IRS 상각 카드</td></tr>
+    </tbody>
+  </table>
+  <div class="grid-2">
+    <div class="card blue"><div class="card-title">UI 개선</div><p>사이드바 순서와 페이지 플로우를 동일하게 맞추고, 분개 표는 계정명이 한 줄로 보이도록 정리했습니다.</p></div>
+    <div class="card green"><div class="card-title">입력 방어</div><p>Zod 폼 검증, 백엔드 Bean Validation, 서비스 계층 BusinessException을 함께 사용합니다.</p></div>
+  </div>
+  <div class="footer">Development Document · API and UI</div>
+</section>
+
+<section class="sheet compact" data-page="05">
+  <div class="section-head">
+    <div>
+      <div class="kicker">04 AI Pipeline</div>
+      <h2>AI 에이전트 기반 개발 방식</h2>
+    </div>
+    <p class="section-note">AI를 결과 생성 도구가 아니라 역할별 검토 파이프라인으로 사용했습니다.</p>
+  </div>
+  <table>
+    <thead>
+      <tr><th style="width:28%;">역할</th><th>담당</th><th style="width:26%;">산출물</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>accounting-expert</td><td>K-IFRS 조항, 회계 요구사항, 경계 케이스 검토</td><td>요구사항 문서</td></tr>
+      <tr><td>backend-developer</td><td>도메인 로직, API, 테스트 구현</td><td>Spring Boot 코드</td></tr>
+      <tr><td>frontend-developer</td><td>사용자 흐름, 화면, 폼 검증 구현</td><td>React UI</td></tr>
+      <tr><td>validator</td><td>오류 재현, 빌드/테스트 검증, 누락 탐지</td><td>검증 리포트</td></tr>
+      <tr><td>Codex</td><td>로컬 파일 수정, 실행 검증, GitHub 제출 정리</td><td>최종 커밋</td></tr>
+    </tbody>
+  </table>
+  <div class="card amber">
+    <div class="card-title">하이브리드 RAG 접근</div>
+    <p>전통적인 RAG 파이프라인 전체를 제품 기능으로 만든 것이 아니라, K-IFRS 원문·정리 문서·검색 API를 회계사 에이전트가 교차 참조하도록 구성했습니다. 검색 실패 시에는 문서화된 지식 파일을 보조 근거로 사용하고, 검토 필요 항목은 구현이 아니라 후속 검증 대상으로 분리했습니다.</p>
+  </div>
+  <div class="footer">Development Document · AI Pipeline</div>
+</section>
+</body>
+</html>
