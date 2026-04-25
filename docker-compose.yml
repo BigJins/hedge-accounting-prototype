@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: hedge-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-hedge}
+      POSTGRES_USER: ${POSTGRES_USER:-hedge}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-hedge}
+    volumes:
+      - hedge-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  hedge-postgres-data:

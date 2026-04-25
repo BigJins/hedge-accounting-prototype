@@ -1,0 +1,41 @@
+# IDE / OS
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+Thumbs.db
+
+# Build outputs
+.gradle/
+.gradle-user-home/
+build/
+out/
+target/
+*.class
+
+# Runtime / local environment
+.env
+.env.*
+!.env.example
+logs/
+*.log
+
+# Local agent/tooling cache
+.agents/
+.superpowers/
+.claude/settings.local.json
+.claude/skills/
+skills-lock.json
+
+# Temporary files
+.fuse_hidden*
+*.tmp
+*.bak
+HELP.md
+fix-truncated-files.ps1
+dashboard.html
+hedge-designation.html
+
+# Accidental path-mount artifacts
+Caccounthedge-prototype/

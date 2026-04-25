@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Logs / temporary files
+logs/
+*.log
+.fuse_hidden*
+*.tmp
+*.bak
