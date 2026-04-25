@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>위험회피회계 자동화 검증 부록</title>
+  <link rel="stylesheet" href="submission-style.css">
+</head>
+<body>
+<main class="page">
+  <section class="cover">
+    <div>
+      <div class="eyebrow">Validation Appendix</div>
+      <h1>위험회피회계 자동화<br>검증 부록</h1>
+      <p class="subtitle">빌드, 테스트, 회계 시나리오, 자동 분개, 입력 검증 결과를 정리한 제출용 검증 문서</p>
+    </div>
+    <div class="meta">
+      <span class="pill">Backend Test Pass</span>
+      <span class="pill">Frontend Build Pass</span>
+      <span class="pill">IRS FVH E2E</span>
+      <span class="pill">FX Forward CFH</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>1. 검증 요약</h2>
+    <div class="grid three">
+      <div class="card"><strong>백엔드</strong><br>Journal/Effectiveness 핵심 테스트 통과</div>
+      <div class="card"><strong>프런트엔드</strong><br>TypeScript 빌드 및 Vite 번들링 통과</div>
+      <div class="card"><strong>회계 흐름</strong><br>FX Forward와 IRS FVH 핵심 분기 검증</div>
+    </div>
+    <div class="code">Backend: .\gradlew.bat test --tests "com.hedge.prototype.journal.*" --tests "com.hedge.prototype.effectiveness.*"
+Frontend: npm ci && npm run build</div>
+  </section>
+
+  <section>
+    <h2>2. 테스트/빌드 결과</h2>
+    <table>
+      <thead>
+        <tr><th>구분</th><th>명령</th><th>결과</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Backend 핵심 테스트</td><td>gradlew test - journal/effectiveness</td><td><span class="tag green">BUILD SUCCESSFUL</span></td></tr>
+        <tr><td>Frontend 설치 검증</td><td>npm ci</td><td><span class="tag green">0 vulnerabilities</span></td></tr>
+        <tr><td>Frontend 빌드</td><td>npm run build</td><td><span class="tag green">Vite build success</span></td></tr>
+        <tr><td>GitHub 업로드 전 검사</td><td>민감정보/임시파일/캐시 제외 확인</td><td><span class="tag green">PASS</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>3. 검증한 핵심 회계 시나리오</h2>
+    <table>
+      <thead>
+        <tr><th>시나리오</th><th>검증 내용</th><th>결과</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>FX Forward CFH</td><td>유효분 OCI, 비효과분 P/L, Lower of Test 부호 처리</td><td><span class="tag green">검증</span></td></tr>
+        <tr><td>FX Forward FVH</td><td>수단 평가손익과 피헤지항목 장부조정 분개</td><td><span class="tag green">검증</span></td></tr>
+        <tr><td>IRS FVH</td><td>IRS 수단 평가손익, 채권 장부금액 조정, 비효과 P/L</td><td><span class="tag green">검증</span></td></tr>
+        <tr><td>IRS FVH 상각</td><td>6.5.9 장부금액 조정 잔액 상각 분개</td><td><span class="tag green">검증</span></td></tr>
+        <tr><td>CRS</td><td>요구사항 및 갭 분석</td><td><span class="tag amber">후속</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>4. IRS FVH E2E 검증값</h2>
+    <p>IRS FVH는 백엔드 API를 통해 계약 등록 - 평가 - 헤지 지정 - 유효성 테스트 - 자동 분개 - 장부조정상각 분개까지 확인했다.</p>
+    <table>
+      <thead>
+        <tr><th>항목</th><th>검증값</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>IRS FV 변동</td><td>+390,000,000원 또는 테스트 시나리오별 평가손익</td></tr>
+        <tr><td>피헤지항목 장부조정</td><td>-386,000,000원</td></tr>
+        <tr><td>Dollar-offset ratio</td><td>-1.0104 수준, PASS</td></tr>
+        <tr><td>비효과 P/L</td><td>+4,000,000원</td></tr>
+        <tr><td>상각 분개</td><td>-386,000,000원을 3기 상각하면 128,666,666.67원</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <strong>분개 방향:</strong> 금리 상승 시 IRS 수단은 평가이익(P/L), 고정금리채권 피헤지항목은 장부금액 하향 조정 및 손실(P/L)로 처리한다. 이후 장부금액 조정 잔액은 K-IFRS 1109호 6.5.9에 따라 상각한다.
+    </div>
+  </section>
+
+  <section>
+    <h2>5. 입력 검증과 방어 로직</h2>
+    <table>
+      <thead>
+        <tr><th>위험</th><th>방어 방식</th><th>검증 포인트</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>잘못된 enum/date 입력</td><td>GlobalExceptionHandler가 JSON 파싱 오류를 400으로 정리</td><td>500 내부 오류 노출 방지</td></tr>
+        <tr><td>계약 ID 누락</td><td>HD_002로 명시적 차단</td><td>NPE나 오해 메시지 방지</td></tr>
+        <tr><td>헤지 유형/위험 조합 오류</td><td>HD_014, HD_015로 차단</td><td>KRW_FIXED_BOND + CASH_FLOW 등 불허</td></tr>
+        <tr><td>동일 계약 중복 지정</td><td>DESIGNATED 상태 중복 지정 차단</td><td>중복 헤지관계 방지</td></tr>
+        <tr><td>0/0 유효성 테스트</td><td>서비스 계층에서 의미 없는 비율 계산 차단</td><td>정확성 보호</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>6. 보안성/효율성/정확성/디버깅 관점</h2>
+    <div class="grid">
+      <div class="card"><h3>보안성</h3><p>민감정보 하드코딩을 줄이기 위해 DB 설정을 환경변수 기본값 방식으로 정리했다. 외부 제출 저장소에는 캐시, 로그, 로컬 설정을 제외했다.</p></div>
+      <div class="card"><h3>효율성</h3><p>유효성 테스트 PASS 시 자동 분개가 생성되고, 불필요한 수동 분개 입력은 UI에서 덜 드러나도록 정리했다.</p></div>
+      <div class="card"><h3>정확성</h3><p>금액 계산은 BigDecimal로 처리하며, 분개 차변/대변 균형과 K-IFRS 근거를 테스트로 확인했다.</p></div>
+      <div class="card"><h3>디버깅</h3><p>예외 코드, Nested 테스트, E2E 시나리오를 통해 실패 지점을 빠르게 찾을 수 있게 했다.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>7. 제출 전 정리 결과</h2>
+    <table>
+      <thead>
+        <tr><th>항목</th><th>조치</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>node_modules, dist, build</td><td>GitHub 업로드 제외</td></tr>
+        <tr><td>.fuse_hidden 임시 파일</td><td>백엔드/프런트에서 삭제 및 .gitignore 등록</td></tr>
+        <tr><td>로컬 IDE/로그/에이전트 캐시</td><td>.idea, logs, .superpowers, .agents 제외</td></tr>
+        <tr><td>플랫폼 전용 Rollup 바이너리</td><td>Windows npm ci 실패 원인 제거</td></tr>
+        <tr><td>GitHub 저장소</td><td>private repo로 업로드 완료</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>8. 미구현 범위 명시</h2>
+    <p>PoC에서 구현하지 않은 기능은 숨기지 않고 후속 범위로 분리했다. 이는 심사 과정에서 과장된 기능처럼 보이지 않게 하기 위한 의도적 결정이다.</p>
+    <table>
+      <thead>
+        <tr><th>항목</th><th>상태</th><th>이유</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>CRS 전체 엔진</td><td>후속 확장</td><td>통화/금리 복합위험 분리가 필요해 RAG/회계 검토가 선행되어야 함</td></tr>
+        <tr><td>Bloomberg/Refinitiv</td><td>제외</td><td>외부 데이터 계약과 운영 연동 범위</td></tr>
+        <tr><td>K-IFRS 1107 공식 공시 양식</td><td>후속</td><td>현재는 분개/검증 중심의 내부 검토 문서 수준</td></tr>
+        <tr><td>운영 인증/권한</td><td>제외</td><td>채용 포트폴리오 PoC 목표와 분리</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="footer">Hedge Accounting Automation Prototype · Validation Appendix · 2026-04-25</div>
+</main>
+</body>
+</html>
