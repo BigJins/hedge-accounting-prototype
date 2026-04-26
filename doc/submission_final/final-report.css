@@ -107,6 +107,52 @@ body {
   color: rgba(255, 255, 255, .86);
 }
 
+.link-hero {
+  display: grid;
+  gap: 6mm;
+  margin-top: 9mm;
+}
+
+.link-card {
+  padding: 7mm;
+  border: 1.2px solid #bcd2ff;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #eef6ff 0%, #ffffff 82%);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, .06);
+}
+
+.link-card.primary {
+  border-color: #1d4ed8;
+  background: linear-gradient(135deg, #1d4ed8 0%, #143a8a 100%);
+}
+
+.link-card .label {
+  color: #53657f;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.link-card.primary .label,
+.link-card.primary .url,
+.link-card.primary p {
+  color: white;
+}
+
+.link-card .url {
+  margin-top: 3mm;
+  color: #0f3f9e;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.35;
+  word-break: break-all;
+}
+
+.link-card p {
+  margin-top: 2.5mm;
+}
+
 h1,
 h2,
 h3 {
