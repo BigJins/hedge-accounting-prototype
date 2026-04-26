@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>위험회피회계 자동화 검증 부록</title>
+  <link rel="stylesheet" href="final-report.css">
+</head>
+<body>
+<section class="sheet cover" data-page="01">
+  <div class="kicker">Validation Appendix</div>
+  <h1>위험회피회계 자동화<br>검증 부록</h1>
+  <p class="sub">빌드, 테스트, 회계 시나리오, 자동 분개, 입력 검증 결과를 정리한 검증 문서입니다.</p>
+  <div class="cover-grid">
+    <div class="cover-card">
+      <div class="kicker">Verification</div>
+      <div class="chips">
+        <span class="chip">Backend Test</span>
+        <span class="chip">Frontend Build</span>
+        <span class="chip">IRS FVH E2E</span>
+        <span class="chip">GitHub Clean-up</span>
+      </div>
+    </div>
+    <div class="cover-card">
+      <div class="kicker">Result</div>
+      <p style="margin-top:3mm;">핵심 테스트와 빌드 통과<br>제출 전 임시파일 정리 완료</p>
+    </div>
+  </div>
+  <div class="footer">Hedge Accounting Automation Prototype</div>
+</section>
+
+<section class="sheet" data-page="02">
+  <div class="head">
+    <div class="kicker">01 Build Result</div>
+    <h2>빌드와 테스트 결과</h2>
+  </div>
+  <div class="grid-3">
+    <div class="card green"><div class="card-title">Backend</div><p>Journal/Effectiveness 핵심 테스트 통과</p></div>
+    <div class="card green"><div class="card-title">Frontend</div><p>npm ci 및 Vite production build 통과</p></div>
+    <div class="card green"><div class="card-title">Repository</div><p>임시파일, 캐시, 로컬 설정 제외 후 업로드</p></div>
+  </div>
+  <div class="formula">Backend
+.\gradlew.bat test --tests "com.hedge.prototype.journal.*" --tests "com.hedge.prototype.effectiveness.*"
+Result: BUILD SUCCESSFUL
+
+Frontend
+npm ci
+npm run build
+Result: Vite build success</div>
+  <table>
+    <thead>
+      <tr><th>검증 항목</th><th>결과</th><th>비고</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>백엔드 핵심 테스트</td><td><span class="chip green">PASS</span></td><td>journal/effectiveness</td></tr>
+      <tr><td>프런트 설치</td><td><span class="chip green">PASS</span></td><td>0 vulnerabilities</td></tr>
+      <tr><td>프런트 빌드</td><td><span class="chip green">PASS</span></td><td>chunk size warning만 존재</td></tr>
+      <tr><td>GitHub 업로드</td><td><span class="chip green">PASS</span></td><td>private repository</td></tr>
+    </tbody>
+  </table>
+  <div class="footer">Validation Appendix · Build</div>
+</section>
+
+<section class="sheet" data-page="03">
+  <div class="head">
+    <div class="kicker">02 Accounting Scenarios</div>
+    <h2>회계 시나리오 검증</h2>
+  </div>
+  <table>
+    <thead>
+      <tr><th style="width:26%;">시나리오</th><th>검증 내용</th><th style="width:20%;">상태</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>FX Forward CFH</td><td>유효분 OCI, 비효과분 P/L, Lower of Test 부호 처리</td><td><span class="chip green">검증</span></td></tr>
+      <tr><td>FX Forward FVH</td><td>수단 평가손익과 피헤지항목 장부조정 분개</td><td><span class="chip green">검증</span></td></tr>
+      <tr><td>IRS FVH</td><td>IRS 수단 평가손익, 채권 장부금액 조정, 비효과 P/L</td><td><span class="chip green">검증</span></td></tr>
+      <tr><td>IRS FVH 상각</td><td>K-IFRS 6.5.9 장부금액 조정 잔액 상각</td><td><span class="chip green">검증</span></td></tr>
+      <tr><td>CRS</td><td>요구사항과 갭 분석</td><td><span class="chip amber">후속</span></td></tr>
+    </tbody>
+  </table>
+  <div class="grid-2" style="margin-top:5mm;">
+    <div class="card blue"><div class="card-title">IRS FVH 기준값</div><p>IRS FV 변동 +390,000,000원, 피헤지항목 장부조정 -386,000,000원, Dollar-offset 약 -1.0104, 비효과 P/L +4,000,000원.</p></div>
+    <div class="card green"><div class="card-title">상각 기준값</div><p>-386,000,000원을 3기 상각할 경우 1기 상각액은 128,666,666.67원입니다.</p></div>
+  </div>
+  <div class="footer">Validation Appendix · Scenarios</div>
+</section>
+
+<section class="sheet" data-page="04">
+  <div class="head">
+    <div class="kicker">03 Screen Evidence</div>
+    <h2>유효성 테스트 화면</h2>
+  </div>
+  <div class="screenshot-frame">
+    <img src="assets/effectiveness-result.png" alt="유효성 테스트 결과 화면">
+    <div class="caption"><strong>유효성 테스트 결과:</strong> Dollar-offset 결과, PASS 판정, K-IFRS 근거, IRS FVH 확장 엔진 안내가 표시됩니다.</div>
+  </div>
+  <div class="grid-3" style="margin-top:5mm;">
+    <div class="card"><div class="card-title">101.0%</div><p>Dollar-offset 결과를 숫자와 막대로 표시합니다.</p></div>
+    <div class="card"><div class="card-title">PASS</div><p>회계 판단 결과와 필요한 조치를 분리해 보여줍니다.</p></div>
+    <div class="card"><div class="card-title">IRS FVH</div><p>K-IFRS 6.5.8과 6.5.9 근거를 안내합니다.</p></div>
+  </div>
+  <div class="footer">Validation Appendix · Screen</div>
+</section>
+
+<section class="sheet" data-page="05">
+  <div class="head">
+    <div class="kicker">04 Guard Rails</div>
+    <h2>입력 검증과 방어 로직</h2>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">서비스 레벨 검증</div>
+      <p>계약 ID 누락, 헤지 유형/위험 조합 오류, 동일 계약 중복 지정, 0/0 유효성 테스트를 차단합니다.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">프런트 입력 검증</div>
+      <p>Zod와 폼 검증으로 헤지 비율, 금액, 날짜, 필수 필드 오류를 사전에 확인합니다.</p>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <tr><th>위험</th><th>방어 방식</th><th>효과</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>잘못된 enum/date</td><td>JSON 파싱 오류를 400으로 정리</td><td>500 오류 노출 방지</td></tr>
+      <tr><td>계약 ID 누락</td><td>HD_002</td><td>NPE 방지</td></tr>
+      <tr><td>부적절한 조합</td><td>HD_014 / HD_015</td><td>회계 부적합 입력 차단</td></tr>
+      <tr><td>중복 지정</td><td>DESIGNATED 상태 재지정 차단</td><td>중복 헤지관계 방지</td></tr>
+      <tr><td>0/0 테스트</td><td>서비스 계층 계산 차단</td><td>무의미한 비율 방지</td></tr>
+    </tbody>
+  </table>
+  <div class="footer">Validation Appendix · Guard Rails</div>
+</section>
+
+<section class="sheet" data-page="06">
+  <div class="head">
+    <div class="kicker">05 Test Cases</div>
+    <h2>대표 테스트 케이스</h2>
+  </div>
+  <table>
+    <thead>
+      <tr><th style="width:30%;">테스트</th><th>검증 내용</th><th style="width:22%;">상태</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>IRS FVH E2E</td><td>계약 등록, 평가, 지정, 테스트, 자동 분개, 상각 분개 흐름</td><td><span class="chip green">PASS</span></td></tr>
+      <tr><td>JournalEntryService</td><td>FVH/CFH/IRS 분개 라우팅과 입력 검증</td><td><span class="chip green">PASS</span></td></tr>
+      <tr><td>LowerOfTestCalculator</td><td>CFH 유효분과 비효과분의 부호 처리</td><td><span class="chip green">PASS</span></td></tr>
+      <tr><td>HedgeDesignationService</td><td>계약 누락, 조합 오류, 중복 지정 차단</td><td><span class="chip green">PASS</span></td></tr>
+      <tr><td>HedgeRebalancingService</td><td>재조정 전 비효과성 분개와 비율 클램프</td><td><span class="chip green">PASS</span></td></tr>
+    </tbody>
+  </table>
+  <div class="grid-2" style="margin-top:5mm;">
+    <div class="card green"><div class="card-title">제출 전 정리</div><p>node_modules, dist, build, .idea, .fuse_hidden, 로컬 로그와 캐시를 제외했습니다.</p></div>
+    <div class="card amber"><div class="card-title">후속 범위</div><p>CRS 전체 엔진, 실시간 시장 데이터, K-IFRS 1107 공식 공시, 운영 권한은 후속 범위입니다.</p></div>
+  </div>
+  <div class="footer">Validation Appendix · Test Cases</div>
+</section>
+</body>
+</html>
