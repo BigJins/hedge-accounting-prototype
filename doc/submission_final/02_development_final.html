@@ -69,7 +69,6 @@
       <tr><td>Backend</td><td>Spring Boot + Java</td><td>Node/NestJS는 프런트와 언어를 맞출 수 있고 FastAPI는 빠른 API 작성에 좋습니다. 다만 금융권 과제에서는 트랜잭션, Bean Validation, JPA, BigDecimal 계산, 계층형 패키지 구조를 명확히 보여주는 Java/Spring 조합이 더 설득력 있다고 판단했습니다.</td></tr>
       <tr><td>Persistence</td><td>JPA</td><td>MyBatis/raw SQL은 복잡한 리포트 쿼리에 유리합니다. 이번 범위는 엔티티 관계, 저장, 조회, 트랜잭션 경계가 핵심이어서 JPA가 더 적합했습니다. 단, 운영 리포팅이 커지면 조회 전용 SQL을 분리하는 것이 낫습니다.</td></tr>
       <tr><td>Database</td><td>PostgreSQL</td><td>MySQL/MariaDB도 충분히 가능한 선택입니다. PostgreSQL은 제약조건, 트랜잭션, 날짜/숫자 타입, 분석성 SQL에서 강점이 있어 평가 이력과 분개 이력을 다루기 좋았습니다. Oracle/SQL Server는 금융권 운영 DB로 강하지만 개인 포트폴리오 배포 비용과 설정 부담이 큽니다. MongoDB는 문서 저장에는 편하지만 회계 분개처럼 관계와 정합성이 중요한 데이터에는 맞지 않습니다.</td></tr>
-      <tr><td>Deployment</td><td>Vercel + Render Starter</td><td>AWS EC2/RDS는 운영화에 강하지만 VPC, 보안그룹, 인스턴스 관리까지 필요합니다. Railway/Fly.io도 대안이지만, 프런트 정적 배포는 Vercel이 단순했고 백엔드와 PostgreSQL은 Render에서 한 화면으로 관리하기 쉬웠습니다. Render는 Starter 인스턴스로 올려 무료 플랜의 슬립 지연을 제거했습니다.</td></tr>
       <tr><td>AI Workflow</td><td>RAG + Claude + Codex</td><td>일반 챗봇 답변만 쓰지 않고, K-IFRS 문서와 정리 문서를 근거로 요구사항 정의, 구현, 검증을 반복했습니다. AI는 제품 기능이 아니라 개발 과정의 회계 검토와 코드 검증을 빠르게 돌리기 위한 도구로 사용했습니다.</td></tr>
     </tbody>
   </table>
