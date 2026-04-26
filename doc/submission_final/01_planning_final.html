@@ -147,22 +147,23 @@
     <div class="kicker">06 Technical Considerations</div>
     <h2>기술적 고려사항</h2>
   </div>
+  <p class="lead">기획서에서는 특정 기술 스택보다, 심사자가 직접 사용할 때 끊기지 않아야 하는 연결 지점과 예외 상황을 중심으로 정리했습니다. 세부 기술 선택과 대안 비교는 개발문서에서 별도로 다룹니다.</p>
   <table>
     <thead>
-      <tr><th style="width:24%;">항목</th><th>선택</th><th>이유</th></tr>
+      <tr><th style="width:24%;">고려사항</th><th>설계 방향</th><th>사용자 관점 효과</th></tr>
     </thead>
     <tbody>
-      <tr><td>프런트엔드</td><td>React + Vite + TypeScript</td><td>복잡한 입력 폼과 결과 화면을 빠르게 분리하고 타입 오류를 줄이기 위해 선택했습니다.</td></tr>
-      <tr><td>백엔드</td><td>Spring Boot + Java</td><td>금융권에서 익숙한 구조이며 Validation, Transaction, JPA 구성이 안정적입니다.</td></tr>
-      <tr><td>DB</td><td>PostgreSQL</td><td>회계 데이터의 정합성과 트랜잭션 처리를 위해 관계형 DB를 사용했습니다.</td></tr>
-      <tr><td>배포</td><td>Vercel + Render Starter</td><td>AWS보다 설정 부담이 작고, 제출용 링크를 빠르게 안정화할 수 있습니다. Render는 Starter로 올려 무료 플랜의 슬립 지연을 제거했습니다.</td></tr>
-      <tr><td>AWS 비교</td><td>이번 PoC에서는 미선택</td><td>EC2/RDS/VPC 설정은 운영화에는 적합하지만, 취업 포트폴리오 제출 전 빠른 시연 안정화에는 과합니다.</td></tr>
-      <tr><td>AI/RAG</td><td>Claude + Codex + K-IFRS 지식 조회</td><td>회계 근거 확인 → 구현 → 테스트 → 문서화 흐름을 빠르게 반복하기 위해 사용했습니다.</td></tr>
+      <tr><td>API 연동</td><td>프런트 화면과 백엔드 계산 엔진을 분리하고, 배포 환경에서는 API 주소를 환경변수로 관리합니다.</td><td>로컬 실행과 공개 데모 링크가 같은 화면 흐름을 유지합니다.</td></tr>
+      <tr><td>데이터 정합성</td><td>헤지관계, 평가 이력, 유효성 테스트, 분개 이력은 서로 연결된 업무 데이터로 취급합니다.</td><td>심사자가 화면을 따라가도 이전 단계 결과가 다음 단계에서 이어집니다.</td></tr>
+      <tr><td>예외 메시지</td><td>입력 누락, 잘못된 조합, 유효성 실패를 일반 오류가 아니라 업무 오류로 구분합니다.</td><td>실패 원인을 "서버 오류"가 아니라 회계/입력 관점에서 이해할 수 있습니다.</td></tr>
+      <tr><td>환경 구분</td><td>DB 접속 정보, API 주소, CORS 허용 출처는 코드에 고정하지 않고 배포 환경에서 주입합니다.</td><td>깃허브 공개 후에도 민감 정보가 코드에 남지 않습니다.</td></tr>
+      <tr><td>시연 안정성</td><td>무료 서버의 슬립 지연처럼 심사 중 체감되는 지연 요소는 배포 설정에서 줄였습니다.</td><td>심사자가 처음 접속해도 긴 대기 없이 흐름을 확인할 수 있습니다.</td></tr>
+      <tr><td>검증 정책</td><td>회계 판단은 K-IFRS 조항, 테스트 결과, 검증 부록으로 추적 가능하게 남깁니다.</td><td>기능이 왜 그렇게 동작하는지 문서와 화면에서 함께 확인할 수 있습니다.</td></tr>
     </tbody>
   </table>
   <div class="card blue" style="margin-top:5mm;">
-    <div class="card-title">외부 서비스 연동</div>
-    <p>Vercel은 정적 프런트엔드 배포, Render는 Spring Boot 백엔드와 PostgreSQL 운영에 사용했습니다. 프런트엔드는 <strong>VITE_API_BASE_URL</strong>, 백엔드는 <strong>DB_URL</strong>과 <strong>APP_CORS_ALLOWED_ORIGINS</strong> 환경변수로 환경을 분리했습니다.</p>
+    <div class="card-title">기획서와 개발문서의 역할 분리</div>
+    <p>이 문서는 사용자가 어떤 문제를 어떤 흐름으로 해결하는지를 설명합니다. 기술 스택, DB 선택 이유, 배포 플랫폼 비교, 테스트 명령은 개발문서와 검증 부록에 분리했습니다.</p>
   </div>
   <div class="footer">Planning Proposal · Technical Considerations</div>
 </section>
