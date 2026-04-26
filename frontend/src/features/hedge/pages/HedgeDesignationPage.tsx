@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 import PageLayout from '@/components/layout/PageLayout'
 import { Card } from '@/components/ui/Card'
@@ -162,6 +163,26 @@ export default function HedgeDesignationPage() {
           />
         </div>
       </div>
+
+      {resultState?.isSaved && resultState.response.hedgeRelationshipId && (
+        <div className="mt-6 rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-4 flex items-center justify-between gap-4 flex-wrap">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">다음 단계</p>
+            <p className="mt-1 text-sm font-semibold text-emerald-900">
+              지정된 위험회피관계로 유효성 테스트를 실행하세요.
+            </p>
+            <p className="mt-0.5 text-xs text-emerald-700 font-mono">
+              관계 ID: {resultState.response.hedgeRelationshipId}
+            </p>
+          </div>
+          <Link
+            to="/effectiveness"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700 transition-colors whitespace-nowrap"
+          >
+            유효성 테스트로 이동 →
+          </Link>
+        </div>
+      )}
 
       {/* ── 하단: 헤지관계 이력 목록 (전체 너비) ─────────────────────── */}
       <HedgeRelationshipList onRedesignate={handleRedesignate} />

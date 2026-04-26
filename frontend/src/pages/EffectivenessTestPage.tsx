@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 import PageLayout from '@/components/layout/PageLayout'
 import { EffectivenessTestForm } from '@/features/effectiveness/components/EffectivenessTestForm'
@@ -318,8 +319,14 @@ export default function EffectivenessTestPage() {
         <div id="effectiveness-result-banner">
           <ResultBanner result={testResult} />
 
-          {/* 새 테스트 버튼 */}
-          <div className="flex justify-end mt-2 mb-2">
+          {/* 다음 단계 / 새 테스트 버튼 */}
+          <div className="flex justify-end gap-3 mt-2 mb-2 flex-wrap">
+            <Link
+              to={`/journal?hedgeRelationshipId=${encodeURIComponent(testResult.hedgeRelationshipId)}`}
+              className="inline-flex items-center rounded-lg bg-blue-700 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-800 transition-colors"
+            >
+              자동 분개 확인 →
+            </Link>
             <button
               type="button"
               onClick={handleNewTest}

@@ -198,7 +198,7 @@ function FxForwardTab() {
           KRW ACT/365 · USD ACT/360 · 현물환율·금리 기반 관측가능 투입변수 사용
         </p>
         <p className="mt-2 text-xs text-blue-700 border-t border-blue-200 pt-2">
-          평가 결과는 이력으로 바로 저장됩니다. 분개는 「유효성 테스트」 PASS 후 자동 생성됩니다.
+          평가 결과는 이력으로 바로 저장됩니다. 먼저 평가된 계약을 헤지수단으로 지정한 뒤 유효성 테스트를 수행합니다.
         </p>
       </div>
 
@@ -215,17 +215,17 @@ function FxForwardTab() {
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">다음 단계</p>
               <p className="mt-1 text-sm font-semibold text-emerald-900">
-                이 평가 결과로 유효성 테스트를 실행하세요.
+                이 평가 결과를 헤지수단으로 지정하세요.
               </p>
               <p className="mt-0.5 text-xs text-emerald-700">
-                Dollar-offset 결과가 PASS면 분개가 자동으로 생성됩니다.
+                위험회피관계 지정 후 유효성 테스트를 실행하면 분개가 자동으로 생성됩니다.
               </p>
             </div>
             <Link
-              to="/effectiveness"
+              to="/hedge/designation"
               className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700 transition-colors whitespace-nowrap"
             >
-              유효성 테스트로 이동 →
+              헤지 지정으로 이동 →
             </Link>
           </div>
         </div>

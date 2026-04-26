@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { HedgeRelationshipSelector } from '@/features/hedge/components/HedgeRelationshipSelector'
 import { JournalEntryHistory } from '@/features/journal/components/JournalEntryHistory'
 import { IrsAmortizationCard } from '@/features/journal/components/IrsAmortizationCard'
@@ -18,7 +18,10 @@ const STATUS_LABEL: Record<HedgeRelationshipSummary['status'], string> = {
 }
 
 export default function JournalEntryPage() {
-  const [selectedRelationshipId, setSelectedRelationshipId] = useState<string>('')
+  const [searchParams] = useSearchParams()
+  const [selectedRelationshipId, setSelectedRelationshipId] = useState<string>(
+    searchParams.get('hedgeRelationshipId') ?? '',
+  )
   const [selectedRelationship, setSelectedRelationship] = useState<HedgeRelationshipSummary | null>(null)
 
   const isFiltered = Boolean(selectedRelationshipId)
