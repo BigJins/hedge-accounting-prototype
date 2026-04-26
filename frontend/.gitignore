@@ -22,3 +22,5 @@ logs/
 .fuse_hidden*
 *.tmp
 *.bak
+
+.vercel
