@@ -5,12 +5,12 @@ import { Button } from '@/components/ui/Button'
 import { Pagination } from '@/components/ui/Pagination'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { ErrorAlert } from '@/components/ui/ErrorAlert'
+import { buildApiUrl } from '@/api/client'
 import { useJournalEntryListAll } from '../api/useJournalEntry'
 import { formatDate, formatKrw } from '@/utils/formatters'
 import type { JournalEntryResponse, JournalEntryType } from '@/types/journal'
 
 const PAGE_SIZE = 10
-const API_BASE = '/api/v1/journal-entries'
 const FILTER_OPTIONS = [
   { value: 'ALL',   label: '전체' },
   { value: 'YEAR',  label: '연도' },
@@ -323,13 +323,13 @@ export function JournalEntryHistory({ hedgeRelationshipId }: JournalEntryHistory
 
   const handleExcelDownload = () => {
     if (!hedgeRelationshipId) return
-    const url = `${API_BASE}/export/excel?hedgeRelationshipId=${encodeURIComponent(hedgeRelationshipId)}`
+    const url = buildApiUrl(`/v1/journal-entries/export/excel?hedgeRelationshipId=${encodeURIComponent(hedgeRelationshipId)}`)
     downloadFile(url, `journal_${hedgeRelationshipId}.xlsx`)
   }
 
   const handlePdfDownload = () => {
     if (!hedgeRelationshipId) return
-    const url = `${API_BASE}/export/pdf?hedgeRelationshipId=${encodeURIComponent(hedgeRelationshipId)}`
+    const url = buildApiUrl(`/v1/journal-entries/export/pdf?hedgeRelationshipId=${encodeURIComponent(hedgeRelationshipId)}`)
     downloadFile(url, `journal_${hedgeRelationshipId}.pdf`)
   }
 

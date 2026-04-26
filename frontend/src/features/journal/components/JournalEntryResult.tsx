@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import clsx from 'clsx'
+import { buildApiUrl } from '@/api/client'
 import type { JournalEntryResponse, JournalEntryType } from '@/types/journal'
 import { formatDate, formatKrw } from '@/utils/formatters'
 
@@ -17,8 +18,6 @@ const ENTRY_TYPE_BADGE: Record<JournalEntryType, { label: string; cls: string }>
 }
 
 // ─── 다운로드 헬퍼 ────────────────────────────────────────────────────────────
-
-const API_BASE = '/api/v1/journal-entries'
 
 function getAccountTone(accountCode: string) {
   if (accountCode.includes('OCI')) {
@@ -317,13 +316,13 @@ export function JournalEntryResult({ entries }: JournalEntryResultProps) {
   /* 다운로드 */
   const handleExcelDownload = () => {
     downloadFile(
-      `${API_BASE}/export/excel?hedgeRelationshipId=${encodeURIComponent(hedgeId)}`,
+      buildApiUrl(`/v1/journal-entries/export/excel?hedgeRelationshipId=${encodeURIComponent(hedgeId)}`),
       `journal_${hedgeId}.xlsx`,
     )
   }
   const handlePdfDownload = () => {
     downloadFile(
-      `${API_BASE}/export/pdf?hedgeRelationshipId=${encodeURIComponent(hedgeId)}`,
+      buildApiUrl(`/v1/journal-entries/export/pdf?hedgeRelationshipId=${encodeURIComponent(hedgeId)}`),
       `journal_${hedgeId}.pdf`,
     )
   }

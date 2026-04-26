@@ -1,8 +1,15 @@
 import axios from 'axios'
 
-/** 백엔드 API 클라이언트 (localhost:8090) */
+export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? '/api').replace(/\/$/, '')
+
+export function buildApiUrl(path: string) {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+  return `${API_BASE_URL}${normalizedPath}`
+}
+
+/** 백엔드 API 클라이언트 */
 export const apiClient = axios.create({
-  baseURL: '/api',
+  baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
   timeout: 10_000,
 })
