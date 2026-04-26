@@ -1,6 +1,7 @@
 # 배포 가이드
 
 이 프로젝트는 포트폴리오 시연 목적의 PoC이므로, 프런트엔드와 백엔드를 분리해서 배포한다.
+심사자가 언제 접속할지 알 수 없기 때문에 백엔드는 Render Starter 인스턴스를 사용해 무료 플랜의 슬립 지연을 제거한다.
 
 ## 권장 구조
 
@@ -16,7 +17,8 @@ Vercel Frontend
 2. Web Service를 생성하고 GitHub 저장소를 연결한다.
 3. Root Directory를 `backend`로 설정한다.
 4. Runtime은 Docker를 선택한다.
-5. 환경변수를 설정한다.
+5. Instance Type은 `Starter`를 선택한다.
+6. 환경변수를 설정한다.
 
 | Key | Value |
 |---|---|

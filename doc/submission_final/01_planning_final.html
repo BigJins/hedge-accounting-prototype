@@ -9,150 +9,162 @@
 <section class="sheet cover" data-page="01">
   <div class="kicker">Planning Proposal</div>
   <h1>금융자산 위험회피회계<br>자동화 시스템 기획서</h1>
-  <p class="sub">유가증권 운용사의 공정가치 위험회피, 현금흐름 위험회피, 유효성 테스트, 회계 분개 생성을 하나의 업무 흐름으로 연결한 웹 프로토타입입니다.</p>
+  <p class="sub">유가증권 운용사가 보유한 금융상품의 공정가치 위험회피, 현금흐름 위험회피, 유효성 테스트, 회계 분개 생성을 하나의 업무 흐름으로 연결한 웹 프로토타입입니다.</p>
   <div class="cover-grid">
     <div class="cover-card">
-      <div class="kicker">Scope</div>
-      <div class="chips">
-        <span class="chip">FX Forward FVH/CFH</span>
-        <span class="chip">IRS FVH</span>
-        <span class="chip">K-IFRS 1109</span>
-        <span class="chip">K-IFRS 1113</span>
-      </div>
+      <div class="kicker">Live Demo</div>
+      <p style="margin-top:3mm;">https://hedge-accounting-prototype.vercel.app</p>
     </div>
     <div class="cover-card">
-      <div class="kicker">Document</div>
-      <p style="margin-top:3mm;">개발 포트폴리오 제출용 PoC<br>2026-04-26</p>
+      <div class="kicker">Repository</div>
+      <p style="margin-top:3mm;">https://github.com/BigJins/hedge-accounting-prototype</p>
     </div>
   </div>
-  <div class="footer">Hedge Accounting Automation Prototype</div>
+  <div class="footer">Hedge Accounting Automation Prototype · 2026-04-26</div>
 </section>
 
 <section class="sheet" data-page="02">
   <div class="head">
-    <div class="kicker">01 Problem</div>
-    <h2>업무 문제 정의</h2>
+    <div class="kicker">01 Goal and Background</div>
+    <h2>목표와 배경</h2>
   </div>
-  <p class="lead">위험회피회계는 계약 정보, 시장 데이터, 회계 기준, 유효성 평가, 분개 근거가 함께 맞아야 성립합니다. 수작업 엑셀 중심 처리에서는 계산 오류, 담당자별 판단 차이, 감사 근거 재구성 부담이 발생할 수 있습니다.</p>
+  <p class="lead">위험회피회계는 계약 정보, 시장 데이터, 회계 기준, 유효성 테스트, 분개 근거가 함께 맞아야 적용할 수 있습니다. 수작업 중심의 엑셀 처리에서는 계산 방식과 판단 근거가 사람마다 달라질 수 있고, 감사 대응 시 어떤 기준으로 분개가 생성됐는지 추적하기 어렵습니다.</p>
   <div class="grid-3" style="margin-top:8mm;">
     <div class="card">
       <div class="num">01</div>
-      <div class="card-title">회계 판단 복잡성</div>
-      <p>헤지 지정 요건, 경제적 관계, 신용위험, 헤지비율, 중단 사유를 K-IFRS 조항과 연결해야 합니다.</p>
+      <div class="card-title">해결하려는 문제</div>
+      <p>공정가치 평가, 헤지 지정, 유효성 테스트, 자동 분개가 서로 끊겨 있어 반복 입력과 검증 누락이 발생하는 문제를 줄입니다.</p>
     </div>
     <div class="card">
       <div class="num">02</div>
-      <div class="card-title">반복 계산 부담</div>
-      <p>공정가치 변동, Dollar-offset, Lower of Test, OCI/P&L 분리를 보고기간마다 반복 계산합니다.</p>
+      <div class="card-title">필요한 이유</div>
+      <p>유가증권 운용사는 환위험과 금리위험을 지속적으로 관리해야 하며, 보고기간 말마다 회계처리와 근거를 빠르게 확인해야 합니다.</p>
     </div>
     <div class="card">
       <div class="num">03</div>
-      <div class="card-title">감사 추적 필요</div>
-      <p>분개 금액뿐 아니라 계산 근거, 기준서 조항, 검증 결과를 함께 남겨야 합니다.</p>
+      <div class="card-title">프로토타입 목표</div>
+      <p>K-IFRS 1109호와 1113호 기준을 반영해 입력부터 분개 확인까지 동작하는 웹 흐름을 구현합니다.</p>
     </div>
   </div>
-  <div class="quote">본 프로토타입은 평가, 지정, 검증, 분개, 근거 표시를 하나의 추적 가능한 업무 흐름으로 통합합니다.</div>
-  <div class="footer">Planning Proposal · Problem</div>
+  <div class="quote">목표는 “모든 금융상품을 한 번에 구현”하는 것이 아니라, 회계 근거가 있는 핵심 흐름을 끝까지 동작시키고 검증 가능하게 만드는 것입니다.</div>
+  <div class="footer">Planning Proposal · Goal</div>
 </section>
 
 <section class="sheet" data-page="03">
   <div class="head">
-    <div class="kicker">02 Workflow</div>
-    <h2>업무 흐름과 목표</h2>
-  </div>
-  <div class="grid-2">
-    <div class="card blue">
-      <div class="card-title">프로젝트 목표</div>
-      <p>금융자산 위험회피회계 처리에서 공정가치 평가, 헤지 지정, 유효성 테스트, 자동 분개, 검증 근거를 연결하는 동작 가능한 웹 프로토타입을 구현합니다.</p>
-    </div>
-    <div class="card green">
-      <div class="card-title">사용 대상</div>
-      <p>유가증권 운용사의 회계 담당자, 리스크 관리 담당자, 내부 검토 담당자가 보고기간 말 회계처리 검증에 활용하는 흐름을 가정했습니다.</p>
-    </div>
+    <div class="kicker">02 User Flow</div>
+    <h2>사용자 흐름</h2>
   </div>
   <div class="flow">
-    <div class="flow-step"><span class="badge">1</span><strong>공정가치 평가</strong><span>FX Forward IRP<br>IRS DCF</span></div>
-    <div class="flow-step"><span class="badge">2</span><strong>헤지 지정</strong><span>K-IFRS 1109<br>6.4.1 문서화</span></div>
+    <div class="flow-step"><span class="badge">1</span><strong>공정가치 평가</strong><span>계약 등록<br>시장 데이터 입력</span></div>
+    <div class="flow-step"><span class="badge">2</span><strong>헤지 지정</strong><span>헤지 유형<br>위험회피수단 지정</span></div>
     <div class="flow-step"><span class="badge">3</span><strong>유효성 테스트</strong><span>Dollar-offset<br>PASS/WARNING/FAIL</span></div>
     <div class="flow-step"><span class="badge">4</span><strong>자동 분개</strong><span>FVH/CFH/OCI<br>K-IFRS 근거</span></div>
   </div>
-  <div class="process-map">
-    <div class="process-box"><strong>입력</strong><span>계약 정보, 시장 데이터, 헤지 목적, 피헤지항목</span></div>
-    <div class="process-arrow">→</div>
-    <div class="process-box"><strong>판단</strong><span>공정가치 평가, 지정 요건, 유효성 테스트, 기준서 근거</span></div>
-    <div class="process-arrow">→</div>
-    <div class="process-box"><strong>산출</strong><span>자동 분개, OCI/P&L 구분, 검증 가능한 결과</span></div>
-  </div>
-  <div class="footer">Planning Proposal · Workflow</div>
+  <table>
+    <thead>
+      <tr><th style="width:24%;">단계</th><th>사용자 행동</th><th>시스템 처리</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>공정가치 평가</td><td>통화선도 또는 IRS 계약과 평가 시장 데이터를 입력합니다.</td><td>공정가치와 변동액을 계산하고 평가 이력으로 저장합니다.</td></tr>
+      <tr><td>헤지 지정</td><td>평가된 계약을 위험회피수단으로 선택하고 헤지 목적·전략을 입력합니다.</td><td>K-IFRS 6.4.1 지정 요건과 중복 지정을 검증합니다.</td></tr>
+      <tr><td>유효성 테스트</td><td>헤지수단 변동액과 피헤지항목 변동액을 입력합니다.</td><td>Dollar-offset 비율과 조치 권고를 계산합니다.</td></tr>
+      <tr><td>자동 분개</td><td>생성된 분개를 조회하고 Excel/PDF로 확인합니다.</td><td>FVH/CFH/IRS FVH 분개와 K-IFRS 조항을 함께 표시합니다.</td></tr>
+    </tbody>
+  </table>
+  <div class="footer">Planning Proposal · User Flow</div>
 </section>
 
 <section class="sheet" data-page="04">
   <div class="head">
-    <div class="kicker">03 Scope</div>
-    <h2>구현 범위</h2>
-  </div>
-  <div class="grid-2">
-    <div class="card green">
-      <div class="card-title">구현 완료 범위</div>
-      <p><span class="chip green">FX Forward FVH/CFH</span> <span class="chip green">IRS FVH</span></p>
-      <p style="margin-top:3mm;">통화선도 평가, 헤지 지정, 유효성 테스트, FVH/CFH 자동 분개, IRS FVH 장부조정상각을 포함합니다.</p>
-    </div>
-    <div class="card amber">
-      <div class="card-title">후속 확장 범위</div>
-      <p><span class="chip amber">CRS</span> <span class="chip amber">공시 자동화</span> <span class="chip amber">시장 데이터 연동</span></p>
-      <p style="margin-top:3mm;">CRS는 통화와 금리의 복합위험 분리가 필요하여 요구사항과 갭 분석 단계로 구분했습니다.</p>
-    </div>
+    <div class="kicker">03 Main Features</div>
+    <h2>주요 기능 설명</h2>
   </div>
   <table>
     <thead>
-      <tr><th style="width:28%;">구분</th><th>내용</th><th style="width:22%;">상태</th></tr>
+      <tr><th style="width:26%;">기능</th><th>설명</th><th style="width:22%;">상태</th></tr>
     </thead>
     <tbody>
-      <tr><td>FX Forward</td><td>공정가치 위험회피와 현금흐름 위험회피 전체 흐름</td><td><span class="chip green">구현</span></td></tr>
-      <tr><td>IRS FVH</td><td>고정금리채권 금리위험 헤지, 평가손익, 장부조정, 상각</td><td><span class="chip green">구현</span></td></tr>
-      <tr><td>CRS</td><td>통화스왑 요구사항 및 갭 분석</td><td><span class="chip amber">후속</span></td></tr>
-      <tr><td>Level 1/3</td><td>상장가격 직접평가, 비관측 투입변수 모델</td><td><span class="chip gray">제외</span></td></tr>
-      <tr><td>운영 보안</td><td>SSO, 권한, 운영 모니터링</td><td><span class="chip gray">제외</span></td></tr>
+      <tr><td>FX Forward 평가</td><td>USD/KRW 통화선도 계약을 IRP 기반 Level 2 방식으로 평가합니다.</td><td><span class="chip green">구현</span></td></tr>
+      <tr><td>FX Forward FVH/CFH</td><td>공정가치 위험회피와 현금흐름 위험회피 분개를 자동 생성합니다.</td><td><span class="chip green">구현</span></td></tr>
+      <tr><td>IRS FVH</td><td>금리위험 공정가치 위험회피, 피헤지항목 장부조정, 6.5.9 상각 분개를 처리합니다.</td><td><span class="chip green">구현</span></td></tr>
+      <tr><td>유효성 테스트</td><td>Dollar-offset 비율을 계산하고 80~125%를 합격선이 아닌 참고 범위로 표시합니다.</td><td><span class="chip green">구현</span></td></tr>
+      <tr><td>CRS</td><td>통화·금리 복합위험 분리와 회계 처리 요구사항을 문서화했습니다.</td><td><span class="chip amber">후속</span></td></tr>
+      <tr><td>해외사업장순투자</td><td>채용 과제 범위와 본 PoC 목적에서 제외했습니다.</td><td><span class="chip gray">제외</span></td></tr>
     </tbody>
   </table>
-  <div class="card blue" style="margin-top:5mm;">
-    <div class="card-title">기대효과</div>
-    <p>운영 데이터가 없는 PoC 단계이므로 비용 절감률을 단정하지 않았습니다. 대신 반복 계산 자동화, 분개 근거 표준화, K-IFRS 조항 추적, 테스트 기반 회귀 방지 가능성을 검증했습니다.</p>
+  <div class="grid-2" style="margin-top:5mm;">
+    <div class="card green"><div class="card-title">검증 가능한 결과</div><p>각 분개에는 분개 유형, 차변/대변 계정, 금액, OCI/P&L/BS 태그, K-IFRS 조항 근거를 함께 표시합니다.</p></div>
+    <div class="card blue"><div class="card-title">배포 링크</div><p>프런트엔드: https://hedge-accounting-prototype.vercel.app<br>백엔드 상태 확인: https://hedge-backend-l1vx.onrender.com/api/health</p></div>
   </div>
-  <div class="footer">Planning Proposal · Scope</div>
+  <div class="footer">Planning Proposal · Main Features</div>
 </section>
 
 <section class="sheet" data-page="05">
   <div class="head">
-    <div class="kicker">04 AI Workflow</div>
-    <h2>AI 활용 방식</h2>
-  </div>
-  <div class="grid-2">
-    <div class="card">
-      <div class="card-title">바이브코딩 기반 빠른 반복</div>
-      <p>초기 화면, API 흐름, 테스트 케이스는 빠르게 만들고 실행 결과를 보며 반복 개선했습니다. 회계 계산과 분개 로직은 테스트와 기준서 근거로 검증했습니다.</p>
-    </div>
-    <div class="card">
-      <div class="card-title">Claude와 Codex 협업</div>
-      <p>Claude는 요구사항 정리와 병렬 구현 검토에 활용했고, Codex는 로컬 코드 수정, 빌드 검증, GitHub 정리, 제출 문서 생성에 활용했습니다.</p>
-    </div>
-  </div>
-  <div class="card blue" style="margin-top:5mm;">
-    <div class="card-title">RAG 기반 회계 근거 공급</div>
-    <p>전통적인 RAG는 원문 수집, 청킹, 임베딩, 벡터DB 저장, 검색, LLM 응답의 단일 파이프라인으로 설명됩니다. 본 프로젝트에서는 RAG를 사용자 기능이 아니라 개발 에이전트의 회계 기준 지식 공급망으로 사용했습니다.</p>
-    <p style="margin-top:2mm;">K-IFRS 원문, 정리 문서, 검색 API를 조합하여 회계사 에이전트가 구현 전에 근거를 확인하도록 구성했습니다. 검색 결과가 불충분한 항목은 구현 범위가 아니라 검토 필요 항목으로 분리했습니다.</p>
+    <div class="kicker">04 Screen Design</div>
+    <h2>화면 설계</h2>
   </div>
   <table>
     <thead>
-      <tr><th>역할</th><th>활용 내용</th><th>검증 방식</th></tr>
+      <tr><th style="width:25%;">화면</th><th>배치 요소</th><th>설계 의도</th></tr>
     </thead>
     <tbody>
-      <tr><td>accounting-expert</td><td>K-IFRS 근거와 요구사항 정리</td><td>조항 번호와 검토 필요 항목 명시</td></tr>
-      <tr><td>backend/frontend agent</td><td>구현과 UI 개선 병렬 처리</td><td>빌드·테스트 결과로 수용 여부 판단</td></tr>
-      <tr><td>Codex</td><td>최종 로컬 검증과 제출 정리</td><td>명령 실행 결과 기반 확인</td></tr>
+      <tr><td>대시보드</td><td>현재 상태, 다음 행동, 단계별 바로가기</td><td>처음 접속한 사용자가 어디서 시작해야 하는지 바로 알 수 있게 합니다.</td></tr>
+      <tr><td>공정가치 평가</td><td>계약 입력 폼, 평가 결과 카드, 계약/평가 이력</td><td>계약 등록과 평가 결과를 같은 화면에서 확인합니다.</td></tr>
+      <tr><td>헤지 지정</td><td>지정 폼, 실시간 적격요건 패널, 지정 이력</td><td>K-IFRS 6.4.1 조건을 입력 중 바로 확인할 수 있게 합니다.</td></tr>
+      <tr><td>유효성 테스트</td><td>관계 선택, 변동액 입력, 결과 게이지, 조치 권고</td><td>PASS/WARNING/FAIL과 회계적 의미를 한 화면에서 설명합니다.</td></tr>
+      <tr><td>자동 분개</td><td>관계별 필터, 분개 테이블, OCI/P&L/BS 태그, 다운로드</td><td>심사자가 분개가 어떤 회계 근거로 생성됐는지 바로 확인합니다.</td></tr>
     </tbody>
   </table>
-  <div class="footer">Planning Proposal · AI Workflow</div>
+  <div class="quote">버튼 흐름은 공정가치 평가 → 헤지 지정 → 유효성 테스트 → 자동 분개 순서로 맞췄습니다.</div>
+  <div class="footer">Planning Proposal · Screen Design</div>
+</section>
+
+<section class="sheet" data-page="06">
+  <div class="head">
+    <div class="kicker">05 Exception Handling</div>
+    <h2>예외 처리 및 에러 메시지</h2>
+  </div>
+  <table>
+    <thead>
+      <tr><th style="width:26%;">오류 상황</th><th>처리 방식</th><th style="width:24%;">사용자 메시지 방향</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>계약 ID 누락</td><td>서비스 레벨에서 저장 전 차단</td><td>계약을 먼저 선택하도록 안내</td></tr>
+      <tr><td>헤지 유형/위험 조합 오류</td><td>K-IFRS 조합 검증으로 차단</td><td>허용되지 않는 조합임을 표시</td></tr>
+      <tr><td>동일 계약 중복 지정</td><td>DESIGNATED 상태 중복 조회 후 차단</td><td>이미 지정된 계약임을 안내</td></tr>
+      <tr><td>유효성 테스트 0/0</td><td>프런트와 백엔드에서 모두 차단</td><td>의미 있는 변동액 입력 요청</td></tr>
+      <tr><td>FAIL 결과</td><td>분개 미생성, 중단/검토 경로 안내</td><td>정상 동작임을 빈 상태 메시지에 표시</td></tr>
+      <tr><td>API/네트워크 오류</td><td>ErrorAlert와 재시도 버튼 표시</td><td>서버 상태와 입력값 확인 안내</td></tr>
+    </tbody>
+  </table>
+  <div class="footer">Planning Proposal · Exceptions</div>
+</section>
+
+<section class="sheet" data-page="07">
+  <div class="head">
+    <div class="kicker">06 Technical Considerations</div>
+    <h2>기술적 고려사항</h2>
+  </div>
+  <table>
+    <thead>
+      <tr><th style="width:24%;">항목</th><th>선택</th><th>이유</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>프런트엔드</td><td>React + Vite + TypeScript</td><td>복잡한 입력 폼과 결과 화면을 빠르게 분리하고 타입 오류를 줄이기 위해 선택했습니다.</td></tr>
+      <tr><td>백엔드</td><td>Spring Boot + Java</td><td>금융권에서 익숙한 구조이며 Validation, Transaction, JPA 구성이 안정적입니다.</td></tr>
+      <tr><td>DB</td><td>PostgreSQL</td><td>회계 데이터의 정합성과 트랜잭션 처리를 위해 관계형 DB를 사용했습니다.</td></tr>
+      <tr><td>배포</td><td>Vercel + Render Starter</td><td>AWS보다 설정 부담이 작고, 제출용 링크를 빠르게 안정화할 수 있습니다. Render는 Starter로 올려 무료 플랜의 슬립 지연을 제거했습니다.</td></tr>
+      <tr><td>AWS 비교</td><td>이번 PoC에서는 미선택</td><td>EC2/RDS/VPC 설정은 운영화에는 적합하지만, 취업 포트폴리오 제출 전 빠른 시연 안정화에는 과합니다.</td></tr>
+      <tr><td>AI/RAG</td><td>Claude + Codex + K-IFRS 지식 조회</td><td>회계 근거 확인 → 구현 → 테스트 → 문서화 흐름을 빠르게 반복하기 위해 사용했습니다.</td></tr>
+    </tbody>
+  </table>
+  <div class="card blue" style="margin-top:5mm;">
+    <div class="card-title">외부 서비스 연동</div>
+    <p>Vercel은 정적 프런트엔드 배포, Render는 Spring Boot 백엔드와 PostgreSQL 운영에 사용했습니다. 프런트엔드는 <strong>VITE_API_BASE_URL</strong>, 백엔드는 <strong>DB_URL</strong>과 <strong>APP_CORS_ALLOWED_ORIGINS</strong> 환경변수로 환경을 분리했습니다.</p>
+  </div>
+  <div class="footer">Planning Proposal · Technical Considerations</div>
 </section>
 </body>
 </html>

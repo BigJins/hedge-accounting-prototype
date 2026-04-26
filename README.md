@@ -1,132 +1,106 @@
 # Hedge Accounting Automation Prototype
 
 K-IFRS 1109/1113 기반 금융자산 위험회피회계 자동화 웹 프로토타입입니다.
-유가증권 운용사가 수행하는 공정가치 위험회피, 현금흐름 위험회피, 유효성 테스트,
-회계 분개 생성을 하나의 흐름으로 검증할 수 있도록 구현했습니다.
 
-## 프로젝트 목적
+유가증권 운용사의 통화선도와 IRS 위험회피회계 업무를 대상으로 공정가치 평가, 헤지 지정, 유효성 테스트, 자동 분개 생성을 하나의 흐름으로 연결했습니다.
 
-이 프로젝트는 채용 포트폴리오 제출을 목적으로 만든 PoC입니다.
-운영 제품이 아니라, 금융 도메인 이해와 구현력, AI 기반 요구사항 분석 및 검증 루프를 보여주는 데 초점을 맞췄습니다.
+## Links
 
-핵심 범위는 다음과 같습니다.
+- Live Demo: https://hedge-accounting-prototype.vercel.app
+- Backend Health: https://hedge-backend-l1vx.onrender.com/api/health
+- GitHub: https://github.com/BigJins/hedge-accounting-prototype
 
-- FX Forward 기반 공정가치 위험회피(FVH) 및 현금흐름 위험회피(CFH)
-- IRS 기반 고정금리채권 공정가치 위험회피(FVH)
-- Dollar-offset 유효성 테스트 자동화
-- K-IFRS 조항 근거가 포함된 자동 분개 생성
-- 검증 결과와 회계 판단 근거 문서화
+## Purpose
 
-## 주요 기능
+이 프로젝트는 취업 포트폴리오 제출을 목적으로 만든 PoC입니다.
+운영 제품화보다 금융 도메인 이해, 회계 기준 반영, 구현력, 검증 루프, AI 활용 방식을 보여주는 데 초점을 맞췄습니다.
 
-| 영역 | 구현 내용 |
+## Implemented Scope
+
+| Area | Status |
 |---|---|
-| 공정가치 평가 | FX Forward IRP 평가, IRS DCF 평가 |
-| 헤지 지정 | 헤지 유형, 위험 유형, 피헤지항목, 헤지수단 지정 |
-| 유효성 테스트 | Periodic/Cumulative Dollar-offset, PASS/WARNING/FAIL 판정 |
-| 자동 분개 | FVH, CFH, OCI, IRS FVH 장부조정상각 분개 생성 |
-| 감사 근거 | K-IFRS 1109/1113 조항과 분개 근거 표시 |
-| 문서화 | 요구사항, 검증 매트릭스, 데모 시나리오, 리팩토링 백로그 |
+| FX Forward FVH/CFH | Implemented |
+| IRS FVH | Implemented |
+| Dollar-offset effectiveness test | Implemented |
+| Automated journal entries | Implemented |
+| IRS FVH amortization journal | Implemented |
+| CRS | Requirements and gap analysis only |
+| Net investment hedge | Out of scope |
 
-## 기술 스택
+## Tech Stack and Rationale
 
-### Backend
+| Technology | Why |
+|---|---|
+| React + Vite | Fast iteration for form-heavy workflow screens |
+| TypeScript | Type-safety for hedge types, instrument types, journal types, and API DTOs |
+| Spring Boot + Java | Familiar enterprise backend stack with validation, transaction, and JPA support |
+| PostgreSQL | Relational consistency for contracts, valuations, hedge relationships, tests, and journals |
+| Vercel | Fast static frontend deployment |
+| Render Starter | Simple Spring Boot + PostgreSQL deployment without free-tier sleep delay |
+| RAG + AI Agents | K-IFRS based requirement analysis, implementation, validation, and documentation loop |
 
-- Java 25
-- Spring Boot 4
-- Gradle
-- PostgreSQL 16
-- JPA / Bean Validation
+### Why Render/Vercel instead of AWS?
 
-### Frontend
+AWS EC2/RDS is suitable for production operations, but it requires more setup around VPC, security groups, database networking, and instance management.
+For this portfolio PoC, the priority was a stable public demo link with minimal operational overhead, so Vercel and Render were selected.
 
-- React 19
-- TypeScript
-- Vite
-- TanStack Query
-- React Hook Form / Zod
-- Tailwind CSS
-
-## 프로젝트 구조
+## Core Flow
 
 ```text
-.
-├── backend/       # Spring Boot API 서버
-├── frontend/      # React/Vite 웹 클라이언트
-├── doc/           # 요구사항, 검증, 데모 문서
-├── workflows/     # AI 에이전트 기반 개발 워크플로우
-├── .claude/       # 역할별 에이전트 정의 일부
-└── docker-compose.yml
+Fair value valuation
+  -> Hedge designation
+  -> Effectiveness test
+  -> Automated journal entries
 ```
 
-## 실행 방법
+## Main Features
 
-### 1. PostgreSQL 실행
+- FX Forward valuation using Level 2 observable inputs
+- Hedge designation validation under K-IFRS 1109 6.4.1
+- Dollar-offset effectiveness test
+- FVH and CFH journal generation
+- OCI / P&L / BS account tagging
+- IRS FVH journal and amortization entry
+- Validation matrix and submission PDF documents
 
-```bash
-docker compose up -d
-```
+## Run Locally
 
-### 2. 백엔드 실행
-
-```bash
-cd backend
-./gradlew bootRun
-```
-
-Windows PowerShell:
+### Backend
 
 ```powershell
 cd backend
 .\gradlew.bat bootRun
 ```
 
-### 3. 프론트엔드 실행
+### Frontend
 
-```bash
+```powershell
 cd frontend
 npm install
 npm run dev
 ```
 
-기본 포트:
+## Verification
 
-- Frontend: `http://localhost:5173`
-- Backend: `http://localhost:8090`
-- PostgreSQL: `localhost:5432`
-
-## 검증 명령
-
-```bash
+```powershell
 cd backend
-./gradlew test --tests "com.hedge.prototype.journal.*" --tests "com.hedge.prototype.effectiveness.*"
+.\gradlew.bat test --tests "com.hedge.prototype.journal.*" --tests "com.hedge.prototype.effectiveness.*" --no-daemon
 ```
 
-```bash
+```powershell
 cd frontend
 npm run build
 ```
 
-## 구현 범위와 한계
+## Submission Documents
 
-| 구분 | 상태 |
-|---|---|
-| FX Forward FVH/CFH | 구현 및 시연 가능 |
-| IRS FVH | 백엔드/프론트 연동 및 분개 타입 구현 |
-| CRS | 요구사항 및 갭 분석 중심, 후속 확장 범위 |
-| Level 1/3 평가 | 본 PoC 범위 제외 |
-| 운영 보안/권한 | 포트폴리오 PoC 범위 밖 |
+- `doc/submission_final/01_기획서_최종_금융자산_위험회피회계_자동화.pdf`
+- `doc/submission_final/02_개발문서_최종_위험회피회계_자동화_프로토타입.pdf`
+- `doc/submission_final/03_검증부록_최종_위험회피회계_자동화.pdf`
 
-## 핵심 문서
+## Accounting Notes
 
-- `doc/PROJECT_BRIEF.md`
-- `doc/REQUIREMENTS.md`
-- `doc/DEMO_SCENARIO.md`
-- `doc/ACCOUNTING_VALIDATION_MATRIX.md`
-- `doc/requirements/IRS_HEDGE_REQUIREMENTS.md`
-- `doc/requirements/SWAP_HEDGE_STAGE2_REQUIREMENTS.md`
-
-## 포트폴리오 관점의 강조점
-
-이 프로젝트는 단순 CRUD가 아니라 회계 기준, 금융상품 평가, 예외 검증, 자동 분개까지 이어지는 도메인 흐름을 구현한 사례입니다.
-또한 회계사 역할, 백엔드 개발자 역할, 검증자 역할, 문서화 역할을 나눈 AI 에이전트 파이프라인으로 요구사항 정의부터 검증까지 반복 개선했습니다.
+- 80~125% is treated as a reference range, not as an automatic pass/fail bright-line.
+- CFH journals separate effective OCI and ineffective P/L amounts.
+- FVH journals recognize both hedging instrument gain/loss and hedged item adjustment through P/L.
+- CRS is intentionally left as a documented extension because currency and interest-rate risk separation needs additional accounting review.

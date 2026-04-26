@@ -33,7 +33,7 @@
     <div class="kicker">00 Technology Rationale</div>
     <h2>기술 선택 이유</h2>
   </div>
-  <p class="lead">이 프로젝트의 기술 선택 기준은 운영 규모보다 짧은 기간 안에 회계 도메인 로직을 정확히 구현하고, 외부 심사자가 직접 확인할 수 있는 웹 프로토타입을 만드는 데 두었습니다.</p>
+  <p class="lead">이 프로젝트의 기술 선택 기준은 짧은 기간 안에 회계 도메인 로직을 정확히 구현하고, 외부 심사자가 직접 접속해 확인할 수 있는 웹 프로토타입을 안정적으로 제공하는 데 두었습니다.</p>
   <table>
     <thead>
       <tr><th style="width:24%;">기술</th><th>선택 이유</th></tr>
@@ -43,10 +43,20 @@
       <tr><td>TypeScript</td><td>헤지 유형, 위험회피수단 유형, 분개 유형처럼 값의 의미가 중요한 필드를 타입으로 고정해 화면과 API 사이의 실수를 줄이기 위해 사용했습니다.</td></tr>
       <tr><td>Spring Boot + Java</td><td>금융권 백엔드에서 익숙한 구조이며, REST API, Validation, Transaction, JPA 연동을 안정적으로 구성할 수 있어 선택했습니다. 금액 계산은 BigDecimal 기반으로 처리했습니다.</td></tr>
       <tr><td>PostgreSQL</td><td>헤지관계, 평가 이력, 유효성 테스트, 분개 이력은 정합성과 트랜잭션이 중요한 관계형 데이터이므로 PostgreSQL을 사용했습니다.</td></tr>
-      <tr><td>Vercel + Render</td><td>프런트엔드는 Vercel, 백엔드와 PostgreSQL은 Render로 분리해 배포합니다. AWS보다 설정 부담이 작아 제출용 웹 프로토타입 링크를 빠르게 제공할 수 있습니다.</td></tr>
+      <tr><td>Vercel + Render</td><td>프런트엔드는 Vercel, 백엔드와 PostgreSQL은 Render로 분리해 배포했습니다. Render는 Starter 인스턴스로 올려 무료 플랜의 슬립 지연을 제거했습니다.</td></tr>
       <tr><td>RAG + AI Agent</td><td>K-IFRS 조항 확인, 요구사항 정리, 구현, 검증, 문서화를 역할별 에이전트 흐름으로 나누어 진행했습니다. 회계 근거를 먼저 확인하고 코드와 테스트로 닫는 검증 루프를 만들기 위한 선택입니다.</td></tr>
     </tbody>
   </table>
+  <div class="grid-2" style="margin-top:5mm;">
+    <div class="card blue">
+      <div class="card-title">AWS 대신 Render를 선택한 이유</div>
+      <p>AWS EC2/RDS는 운영화에는 적합하지만 VPC, 보안그룹, 인스턴스 관리, DB 연결 설정까지 필요합니다. 본 프로젝트는 취업용 웹 프로토타입 제출이 목적이므로 배포 속도와 링크 안정성을 우선했습니다.</p>
+    </div>
+    <div class="card green">
+      <div class="card-title">배포 링크</div>
+      <p>Frontend: https://hedge-accounting-prototype.vercel.app<br>Backend Health: https://hedge-backend-l1vx.onrender.com/api/health<br>GitHub: https://github.com/BigJins/hedge-accounting-prototype</p>
+    </div>
+  </div>
   <div class="quote">핵심 선택 기준은 “기능을 많이 보이기”보다 “회계 근거가 있는 기능을 끝까지 동작시키기”였습니다.</div>
   <div class="footer">Development Document · Technology Rationale</div>
 </section>

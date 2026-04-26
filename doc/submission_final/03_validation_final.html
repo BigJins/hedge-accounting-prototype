@@ -54,7 +54,8 @@ Result: Vite build success</div>
       <tr><td>백엔드 핵심 테스트</td><td><span class="chip green">PASS</span></td><td>journal/effectiveness</td></tr>
       <tr><td>프런트 설치</td><td><span class="chip green">PASS</span></td><td>0 vulnerabilities</td></tr>
       <tr><td>프런트 빌드</td><td><span class="chip green">PASS</span></td><td>chunk size warning만 존재</td></tr>
-      <tr><td>GitHub 업로드</td><td><span class="chip green">PASS</span></td><td>private repository</td></tr>
+      <tr><td>GitHub 업로드</td><td><span class="chip green">PASS</span></td><td>public repository</td></tr>
+      <tr><td>배포 링크</td><td><span class="chip green">PASS</span></td><td>Vercel frontend, Render backend, Render PostgreSQL</td></tr>
     </tbody>
   </table>
   <div class="footer">Validation Appendix · Build</div>
@@ -81,6 +82,18 @@ Result: Vite build success</div>
     <div class="card blue"><div class="card-title">IRS FVH 기준값</div><p>IRS FV 변동 +390,000,000원, 피헤지항목 장부조정 -386,000,000원, Dollar-offset 약 -1.0104, 비효과 P/L +4,000,000원.</p></div>
     <div class="card green"><div class="card-title">상각 기준값</div><p>-386,000,000원을 3기 상각할 경우 1기 상각액은 128,666,666.67원입니다.</p></div>
   </div>
+  <table style="margin-top:5mm;">
+    <thead>
+      <tr><th style="width:26%;">회계 논리</th><th>검증 판단</th><th style="width:20%;">결과</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>FVH 분개</td><td>위험회피수단 평가손익은 P/L, 피헤지항목 장부조정도 P/L로 인식하는 구조입니다.</td><td><span class="chip green">적정</span></td></tr>
+      <tr><td>CFH 분개</td><td>유효부분은 OCI, 비효과부분은 P/L로 분리하고 Lower of Test 구조를 적용했습니다.</td><td><span class="chip green">적정</span></td></tr>
+      <tr><td>Dollar-offset</td><td>80~125%를 합격선으로 쓰지 않고 IFRS 9 BC6.234에 따른 참고 범위로만 표시했습니다.</td><td><span class="chip green">적정</span></td></tr>
+      <tr><td>IRS FVH 상각</td><td>K-IFRS 6.5.9에 따라 장부금액 조정 잔액의 상각 분개를 별도 유형으로 구현했습니다.</td><td><span class="chip green">PoC 적정</span></td></tr>
+      <tr><td>CRS</td><td>통화와 금리 복합위험 분리 검토가 필요하여 구현 범위가 아니라 후속 요구사항으로 분리했습니다.</td><td><span class="chip amber">후속</span></td></tr>
+    </tbody>
+  </table>
   <div class="footer">Validation Appendix · Scenarios</div>
 </section>
 
